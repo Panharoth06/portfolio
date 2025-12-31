@@ -127,6 +127,23 @@
     }
   }
 }
+@keyframes orbit-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-reverse-spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
 
 @layer base {
   * {
@@ -135,4 +152,26 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+html {
+
+  scroll-behavior: smooth;
+}
+
+* {
+  cursor: none !important;
+}
+
+@keyframes shine {
+  from {
+    background-position: 0% center;
+  }
+  to {
+    background-position: 200% center;
+  }
+}
+
+.animate-shine {
+  animation: shine 3s linear infinite;
 }

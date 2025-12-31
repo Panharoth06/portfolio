@@ -1,8 +1,12 @@
+'use client'
 import { NeuralBackground } from "@/components/NeuralBackground"
 import Image from "next/image";
 
 import me from "./../../public/me.jpg"
 import { WavePath } from "@/components/ui/wave-path";
+import { OrbitRotation } from "@/components/ui/orbit-rotation";
+import { FaDocker, FaJava } from "react-icons/fa";
+import { SiArchlinux, SiKalilinux, SiKatana, SiKeycloak, SiNextdotjs, SiPostman, SiSpringboot, SiSwagger, SiTypescript, SiWireshark } from "react-icons/si";
 
 interface Project {
   project_name: string;
@@ -62,13 +66,15 @@ export default function Home() {
             <div className="space-y-8 text-center lg:text-left order-2 lg:order-1">
               {/* Badge */}
               <div className="inline-block px-3 py-1 border border-primary/20 rounded-full bg-primary/5 backdrop-blur-sm">
-                <span className="text-xs tracking-widest uppercase text-primary font-mono">
+                <span className="text-xs tracking-widest uppercase text-primary animate-shine font-mono">
                   Cybersecurity
                 </span>
               </div>
 
               {/* Heading */}
-              <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-transparent bg-clip-text bg-linear-to-b from-foreground to-foreground/40 leading-tight">
+              <h1
+                className="text-5xl md:text-7xl font-bold tracking-tighter text-transparent bg-clip-text bg-linear-to-r from-foreground/50 via-foreground to-foreground/50 bg-size-[200%_auto] animate-shine leading-tight"
+              >
                 PANHAROTH <br /> CHHENG.
               </h1>
 
@@ -111,9 +117,35 @@ export default function Home() {
           </div>
         </section>
 
-        <WavePath/>
+        <WavePath className="mb-40 sm:mb-60" />
 
-        <div className="my-20 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+        <div className="mb-10 sm:mb-20 w-full flex justify-center">
+          <div className="scale-[0.6] sm:scale-[0.85] md:scale-100 transform-gpu">
+            <OrbitRotation
+              icons={[
+                { Icon: SiKalilinux, name: "Kali" },
+                { Icon: SiSpringboot, name: "Spring Boot" },
+                { Icon: SiNextdotjs, name: "NextJS" },
+                { Icon: FaDocker, name: "Docker" },
+                { Icon: SiArchlinux, name: "Arch" },
+                { Icon: SiSwagger, name: "Swagger" },
+                { Icon: SiKeycloak, name: "Keycloak" },
+                { Icon: SiPostman, name: "Postman" },
+                { Icon: SiKatana, name: "Katana" },
+                { Icon: SiWireshark, name: "Wire shark" },
+                { Icon: SiTypescript, name: "TypeScript" },
+                { Icon: FaJava, name: "Java" }
+              ]}
+              orbitCount={4}
+              orbitGap={6}
+              size="lg"
+            />
+          </div>
+        </div>
+
+
+
+        <div className="my-40 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
           {projects.map((project, index) => (
             <div
               key={project.project_name}

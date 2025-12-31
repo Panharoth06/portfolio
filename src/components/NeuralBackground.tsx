@@ -41,7 +41,7 @@ export function NeuralBackground({ children }: NeuralBackgroundProps) {
     class CircularLine {
       opacity = 0
       targetOpacity = Math.random() * 0.4 + 0.1
-      speed = Math.random() * 0.08 + 0.01 // Rotation/Wave speed
+      speed = Math.random() * 0.15 + 0.01 // Rotation/Wave speed
       radius: number
       phase: number
       frequency: number
