@@ -22,8 +22,8 @@ import {
 } from "react-icons/si"
 
 import { cn } from "@/lib/utils"
-
-interface OrbitIcon {
+ 
+export interface OrbitIcon {
   Icon: React.ComponentType<{ className?: string }>
   name?: string
 }

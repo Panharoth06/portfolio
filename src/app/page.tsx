@@ -4,9 +4,11 @@ import Image from "next/image";
 
 import me from "./../../public/me.jpg"
 import { WavePath } from "@/components/ui/wave-path";
-import { OrbitRotation } from "@/components/ui/orbit-rotation";
+import { OrbitIcon, OrbitRotation } from "@/components/ui/orbit-rotation";
 import { FaDocker, FaJava } from "react-icons/fa";
-import { SiArchlinux, SiKalilinux, SiKatana, SiKeycloak, SiNextdotjs, SiPostman, SiSpringboot, SiSwagger, SiTypescript, SiWireshark } from "react-icons/si";
+import { SiArchlinux, SiCplusplus, SiCyberdefenders, SiFastapi, SiGithub, SiKalilinux, SiKatana, SiKeycloak, SiNextdotjs, SiPostgresql, SiPostman, SiSpringboot, SiSwagger, SiTypescript, SiWireshark } from "react-icons/si";
+import Link from "next/link";
+import CircularText from "@/components/CircularButton";
 
 interface Project {
   project_name: string;
@@ -51,6 +53,27 @@ const projects: Project[] = [
   },
 ];
 
+const predefined_icons: OrbitIcon[] = [
+  { Icon: SiKalilinux, name: "Kali" },
+  { Icon: SiSpringboot, name: "Spring Boot" },
+  { Icon: SiNextdotjs, name: "NextJS" },
+  { Icon: FaDocker, name: "Docker" },
+  { Icon: SiArchlinux, name: "Arch" },
+  { Icon: SiSwagger, name: "Swagger" },
+  { Icon: SiKeycloak, name: "Keycloak" },
+  { Icon: SiPostman, name: "Postman" },
+  { Icon: SiKatana, name: "Katana" },
+  { Icon: SiWireshark, name: "Wire shark" },
+  { Icon: SiTypescript, name: "TypeScript" },
+  { Icon: FaJava, name: "Java" },
+  { Icon: SiPostgresql, name: "PostgreSQL" },
+  { Icon: SiCplusplus, name: "C++" },
+  { Icon: SiFastapi, name: "FastAPI" }
+]
+
+const center_icon: OrbitIcon = {
+  Icon: SiCyberdefenders, name: "Cybersecurity"
+}
 
 
 export default function Home() {
@@ -84,14 +107,23 @@ export default function Home() {
                 cybersecurity, performance, and modern web architecture.
               </p>
 
-              {/* Buttons */}
-              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                <button className="px-8 py-3 bg-primary text-primary-foreground font-medium rounded-md hover:opacity-90 transition-opacity">
+              <div className="flex flex-wrap items-center gap-4 justify-center lg:justify-start">
+                {/* Primary Button */}
+                <a
+                  href="#project-section"
+                  className="inline-block px-8 py-3 bg-primary text-primary-foreground font-medium rounded-md hover:opacity-90 transition-opacity"
+                >
                   View Projects
-                </button>
-                <button className="px-8 py-3 border border-border bg-card/50 hover:bg-card/80 transition-colors rounded-md backdrop-blur-sm">
-                  Contact Me
-                </button>
+                </a>
+
+                <Link
+                  href="https://github.com/Panharoth06"
+                  target="_blank"
+                  className="px-8 py-3 flex items-center gap-2 border border-border bg-card/50 hover:bg-card/80 transition-colors rounded-md backdrop-blur-sm group"
+                >
+                  <SiGithub className="text-xl group-hover:text-primary transition-colors" />
+                  <span className="font-medium">GitHub</span>
+                </Link>
               </div>
             </div>
 
@@ -122,23 +154,11 @@ export default function Home() {
         <div className="mb-10 sm:mb-20 w-full flex justify-center">
           <div className="scale-[0.6] sm:scale-[0.85] md:scale-100 transform-gpu">
             <OrbitRotation
-              icons={[
-                { Icon: SiKalilinux, name: "Kali" },
-                { Icon: SiSpringboot, name: "Spring Boot" },
-                { Icon: SiNextdotjs, name: "NextJS" },
-                { Icon: FaDocker, name: "Docker" },
-                { Icon: SiArchlinux, name: "Arch" },
-                { Icon: SiSwagger, name: "Swagger" },
-                { Icon: SiKeycloak, name: "Keycloak" },
-                { Icon: SiPostman, name: "Postman" },
-                { Icon: SiKatana, name: "Katana" },
-                { Icon: SiWireshark, name: "Wire shark" },
-                { Icon: SiTypescript, name: "TypeScript" },
-                { Icon: FaJava, name: "Java" }
-              ]}
+              icons={predefined_icons}
               orbitCount={4}
               orbitGap={6}
               size="lg"
+              centerIcon={center_icon}
             />
           </div>
         </div>
@@ -148,14 +168,10 @@ export default function Home() {
         <div className="my-40 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
           {projects.map((project, index) => (
             <div
-              key={project.project_name}
-              // 1. OUTER WRAPPER: Needs relative, overflow-hidden, and 'group' for hover detection
-              // The p-[1px] acts as the border width.
+              id="project-section"
+              key={index}
               className="group relative h-full w-full overflow-hidden rounded-xl bg-card/30 p-px"
             >
-              {/* 2. THE RUNNING LIGHT: A conic gradient that spins. 
-          It is huge (inset-[-1000%]) to ensure it covers the card while spinning.
-          It is hidden by default (opacity-0) and shows on hover. */}
               <div className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,var(--color-primary)_50%,transparent_100%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
               <div className="relative z-10 h-full w-full rounded-xl bg-card/95 backdrop-blur-md p-6 transition-colors">
@@ -186,8 +202,8 @@ export default function Home() {
           ))}
         </div>
 
-
       </div>
+      <CircularText/>
     </NeuralBackground>
   )
 }
