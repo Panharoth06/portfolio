@@ -155,7 +155,7 @@ export default function Home() {
           <div className="scale-[0.6] sm:scale-[0.85] md:scale-100 transform-gpu">
             <OrbitRotation
               icons={predefined_icons}
-              orbitCount={4}
+              orbitCount={3}
               orbitGap={6}
               size="lg"
               centerIcon={center_icon}
