@@ -1,7 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import React, { useEffect, useRef } from "react"
 
 interface NeuralBackgroundProps {
   children: React.ReactNode
@@ -9,7 +8,6 @@ interface NeuralBackgroundProps {
 
 export function NeuralBackground({ children }: NeuralBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [isIntroComplete, setIsIntroComplete] = useState(false)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -21,8 +19,28 @@ export function NeuralBackground({ children }: NeuralBackgroundProps) {
     let animationFrameId: number
     let time = 0
 
-    const styles = getComputedStyle(document.body)
-    const primaryColor = styles.getPropertyValue("--primary").trim() || "#22c55e"
+    // Read the current --primary CSS variable value
+    const readPrimaryColor = () =>
+      getComputedStyle(document.body).getPropertyValue("--primary").trim() || "#22c55e"
+
+    let primaryColor = readPrimaryColor()
+    // Track a target color for smooth crossfade between themes via opacity blending.
+    let previousColor = primaryColor
+    let colorTransition = 1 // 0 = fully previous, 1 = fully current
+
+    // Watch for theme changes (class attribute on <html>) and update the color
+    const observer = new MutationObserver(() => {
+      const next = readPrimaryColor()
+      if (next !== primaryColor) {
+        previousColor = primaryColor
+        primaryColor = next
+        colorTransition = 0
+      }
+    })
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    })
 
     // ---------- Resize (DPR-safe) ----------
     const resize = () => {
@@ -59,16 +77,14 @@ export function NeuralBackground({ children }: NeuralBackgroundProps) {
         if (this.opacity < this.targetOpacity) this.opacity += 0.005
 
         ctx.beginPath()
-        ctx.globalAlpha = this.opacity
-        ctx.strokeStyle = primaryColor
         ctx.lineWidth = 1.5
 
         const segments = 100 // Higher segments for smoother circles
-        
+
         // Draw a closed loop
         for (let i = 0; i <= segments; i++) {
           const angle = (i / segments) * Math.PI * 2
-          
+
           // Calculate a "breathing" wave offset
           // We use the angle to make the wave wrap perfectly around the circle
           const wave = Math.sin(angle * this.frequency + t * this.speed + this.phase)
@@ -80,7 +96,17 @@ export function NeuralBackground({ children }: NeuralBackgroundProps) {
           if (i === 0) ctx.moveTo(x, y)
           else ctx.lineTo(x, y)
         }
-        
+
+        // During a theme change, paint the previous color underneath so the
+        // change crossfades instead of snapping.
+        if (colorTransition < 1) {
+          ctx.globalAlpha = this.opacity * (1 - colorTransition)
+          ctx.strokeStyle = previousColor
+          ctx.stroke()
+        }
+
+        ctx.globalAlpha = this.opacity * colorTransition
+        ctx.strokeStyle = primaryColor
         ctx.stroke()
         ctx.globalAlpha = 1.0
       }
@@ -88,13 +114,17 @@ export function NeuralBackground({ children }: NeuralBackgroundProps) {
 
     // Initialize Rings
     const lines: CircularLine[] = Array.from(
-      { length: 12 }, 
+      { length: 12 },
       () => new CircularLine(window.innerWidth / 2, window.innerHeight / 2)
     )
 
     // ---------- Render Loop ----------
     const render = () => {
       time += 0.05 // Slower time step for smoother waves
+      // Advance the color crossfade (~300ms at 60fps).
+      if (colorTransition < 1) {
+        colorTransition = Math.min(1, colorTransition + 1 / 18)
+      }
       ctx.clearRect(0, 0, canvas.width, canvas.height) // Clear cleanly for sharp lines
 
       lines.forEach((line) => line.draw(ctx, time))
@@ -103,20 +133,16 @@ export function NeuralBackground({ children }: NeuralBackgroundProps) {
 
     render()
 
-    const introTimer = setTimeout(() => {
-      setIsIntroComplete(true)
-    }, 4000)
-
     return () => {
+      observer.disconnect()
       window.removeEventListener("resize", resize)
       cancelAnimationFrame(animationFrameId)
-      clearTimeout(introTimer)
     }
   }, [])
 
   return (
     <div className="relative min-h-screen w-full bg-background text-foreground selection:bg-primary/20">
-      
+
       {/* Background Layer */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Grain Texture */}
@@ -138,66 +164,10 @@ export function NeuralBackground({ children }: NeuralBackgroundProps) {
         <div className="absolute inset-0 bg-radial-gradient from-transparent via-background/10 to-background/80" />
       </div>
 
-      {/* Intro Overlay */}
-      <AnimatePresence>
-        {!isIntroComplete && (
-          <motion.div
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-background"
-          >
-            <div className="flex flex-col items-center gap-6">
-              <motion.div
-                initial={{ height: 0 }}
-                animate={{ height: "6rem" }}
-                transition={{ duration: 1 }}
-                className="w-px bg-linear-to-b from-transparent via-primary to-transparent"
-              />
-
-              <div className="text-center space-y-3 mix-blend-difference">
-                <motion.h1
-                  initial={{ opacity: 0, letterSpacing: "0.2em" }}
-                  animate={{ opacity: 1, letterSpacing: "0.6em" }}
-                  transition={{ duration: 2 }}
-                  className="text-sm font-bold uppercase text-primary"
-                >
-                  System Initializing
-                </motion.h1>
-
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.5 }}
-                  transition={{ delay: 0.8, duration: 1 }}
-                  className="text-[10px] uppercase tracking-[0.3em] font-mono text-muted-foreground"
-                >
-                  PANHAROTH
-                </motion.p>
-              </div>
-
-              <motion.div
-                initial={{ height: 0 }}
-                animate={{ height: "6rem" }}
-                transition={{ duration: 1 }}
-                className="w-px bg-linear-to-t from-transparent via-primary to-transparent"
-              />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Main Content */}
-      <motion.main
-        initial={{ opacity: 0, y: 20 }}
-        animate={{
-          opacity: isIntroComplete ? 1 : 0,
-          y: isIntroComplete ? 0 : 20,
-        }}
-        transition={{ duration: 1, delay: 0.5 }}
-        className="relative z-10 w-full"
-      >
+      <main className="relative z-10 w-full">
         {children}
-      </motion.main>
+      </main>
     </div>
   )
 }

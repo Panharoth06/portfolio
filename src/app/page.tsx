@@ -2,68 +2,27 @@
 import { NeuralBackground } from "@/components/NeuralBackground"
 import Image from "next/image";
 
-import me from "./../../public/me.jpg"
 import { WavePath } from "@/components/ui/wave-path";
 import { OrbitIcon, OrbitRotation } from "@/components/ui/orbit-rotation";
 import { FaDocker, FaJava } from "react-icons/fa";
-import { SiArchlinux, SiCplusplus, SiCyberdefenders, SiFastapi, SiGithub, SiKalilinux, SiKatana, SiKeycloak, SiNextdotjs, SiPostgresql, SiPostman, SiSpringboot, SiSwagger, SiTypescript, SiWireshark } from "react-icons/si";
+import { SiArchlinux, SiCplusplus, SiCyberdefenders, SiFastapi, SiGithub, SiJenkins, SiKalilinux, SiKatana, SiKeycloak, SiNextdotjs, SiPostgresql, SiPostman, SiRust, SiSpringboot, SiSwagger, SiTypescript, SiWireshark } from "react-icons/si";
 import Link from "next/link";
 import CircularText from "@/components/CircularButton";
-
-interface Project {
-  project_name: string;
-  category: string;
-  description: string;
-  technologies: string[];
-  year: number;
-}
-
-const projects: Project[] = [
-  {
-    project_name: "EMP Manage Pro",
-    category: "Console-Based System",
-    description:
-      "A robust employee management system featuring role management, structured records, and QR-based check-in/check-out for attendance tracking.",
-    technologies: ["C++", "Python (Flask)", "HTML", "CSS"],
-    year: 2024,
-  },
-  {
-    project_name: "Reandata",
-    category: "Educational Web Platform",
-    description:
-      "A learning-focused platform designed for students interested in data analytics, offering curated content and exploratory resources.",
-    technologies: ["React + Vite", "Redux Toolkit", "Zod", "Tailwind CSS"],
-    year: 2025,
-  },
-  {
-    project_name: "CodeCompass",
-    category: "Developer Platform",
-    description:
-      "A competitive programming and algorithm practice platform where developers solve problems authored by the community, powered by secure authentication and online code execution.",
-    technologies: [
-      "Spring Boot",
-      "Next.js",
-      "TypeScript",
-      "Keycloak",
-      "shadcn/ui",
-      "Docker",
-      "Judge0",
-    ],
-    year: 2025,
-  },
-];
+import { FaGolang } from "react-icons/fa6";
+import { SkillsShowcase } from "@/components/SkillsShowcase";
+import { ProjectExperience } from "@/components/ProjectExperience";
 
 const predefined_icons: OrbitIcon[] = [
-  { Icon: SiKalilinux, name: "Kali" },
+  { Icon: SiJenkins, name: "Jenkins" },
   { Icon: SiSpringboot, name: "Spring Boot" },
   { Icon: SiNextdotjs, name: "NextJS" },
   { Icon: FaDocker, name: "Docker" },
   { Icon: SiArchlinux, name: "Arch" },
   { Icon: SiSwagger, name: "Swagger" },
   { Icon: SiKeycloak, name: "Keycloak" },
-  { Icon: SiPostman, name: "Postman" },
-  { Icon: SiKatana, name: "Katana" },
-  { Icon: SiWireshark, name: "Wire shark" },
+  { Icon: SiGithub, name: "Github" },
+  { Icon: SiRust, name: "Rust" },
+  { Icon: FaGolang, name: "Golang" },
   { Icon: SiTypescript, name: "TypeScript" },
   { Icon: FaJava, name: "Java" },
   { Icon: SiPostgresql, name: "PostgreSQL" },
@@ -81,7 +40,7 @@ export default function Home() {
     <NeuralBackground>
       <div className="container mx-auto px-6 min-h-screen flex flex-col justify-center items-center">
 
-        <section className="container mx-auto px-6 py-20 md:py-32 mb-20">
+        <section id="hero" className="container mx-auto px-6 py-20 md:py-32 mb-20">
           {/* Grid Container: 1 col on mobile, 2 cols on desktop */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
@@ -137,7 +96,7 @@ export default function Home() {
               {/* Image Container */}
               <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-100 lg:h-100 rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-card/30 backdrop-blur-sm">
                 <Image
-                  src={me}
+                  src="/me.jpg"
                   alt="Panharoth Chheng"
                   fill
                   className="object-cover"
@@ -151,7 +110,7 @@ export default function Home() {
 
         <WavePath className="mb-40 sm:mb-60" />
 
-        <div className="mb-10 sm:mb-20 w-full flex justify-center">
+        <div className="mb-10 sm:mb-40 w-full flex justify-center">
           <div className="scale-[0.6] sm:scale-[0.85] md:scale-100 transform-gpu">
             <OrbitRotation
               icons={predefined_icons}
@@ -163,47 +122,16 @@ export default function Home() {
           </div>
         </div>
 
+        <section id="skills">
+          <SkillsShowcase />
+        </section>
 
-
-        <div className="my-40 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-          {projects.map((project, index) => (
-            <div
-              id="project-section"
-              key={index}
-              className="group relative h-full w-full overflow-hidden rounded-xl bg-card/30 p-px"
-            >
-              <div className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,var(--color-primary)_50%,transparent_100%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-              <div className="relative z-10 h-full w-full rounded-xl bg-card/95 backdrop-blur-md p-6 transition-colors">
-                <span className="text-xs uppercase tracking-widest text-primary font-mono">
-                  {project.category}
-                </span>
-
-                <h3 className="text-xl font-bold mt-2 mb-2">
-                  {project.project_name}
-                </h3>
-
-                <p className="text-muted-foreground text-sm mb-4">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
-                  {project.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2 py-1 border border-border rounded-md bg-card/50"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <section id="projects">
+          <ProjectExperience />
+        </section>
 
       </div>
-      <CircularText/>
+      <CircularText />
     </NeuralBackground>
   )
 }
