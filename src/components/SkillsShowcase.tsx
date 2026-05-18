@@ -44,7 +44,7 @@ export function SkillsShowcase() {
             : "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
 
     return (
-        <section className="w-full my-20">
+        <section className="w-full mt-20">
             {/* Header */}
             <div className="mb-12 flex flex-col items-center gap-3 text-center">
                 <div className="inline-block px-3 py-1 border border-primary/20 rounded-full bg-primary/5 backdrop-blur-sm">

@@ -22,7 +22,7 @@ import {
 } from "react-icons/si"
 
 import { cn } from "@/lib/utils"
- 
+
 export interface OrbitIcon {
   Icon: React.ComponentType<{ className?: string }>
   name?: string
@@ -122,8 +122,8 @@ export function OrbitRotation({
                 )
                 .map((iconConfig, iconIdx) => {
                   const angle = iconIdx * angleStep
-                  const x = 50 + 50 * Math.cos(angle)
-                  const y = 50 + 50 * Math.sin(angle)
+                  const x = parseFloat((50 + 50 * Math.cos(angle)).toFixed(4))
+                  const y = parseFloat((50 + 50 * Math.sin(angle)).toFixed(4))
 
                   return (
                     <div

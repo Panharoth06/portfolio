@@ -99,6 +99,7 @@ export default function Home() {
                   src="/me.jpg"
                   alt="Panharoth Chheng"
                   fill
+                  sizes="(max-width: 768px) 16rem, (max-width: 1024px) 20rem, 25rem"
                   className="object-cover"
                   priority
                 />

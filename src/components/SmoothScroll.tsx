@@ -10,6 +10,9 @@ declare global {
 
 export default function SmoothScroll() {
   useEffect(() => {
+    // Only enable smooth scroll on md+ screens (768px and above)
+    if (window.innerWidth < 768) return;
+
     const lenis = new Lenis();
     window.lenis = lenis;
 

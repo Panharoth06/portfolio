@@ -90,7 +90,7 @@ export function ProjectExperience() {
                         key={index}
                         className="group relative h-full w-full overflow-hidden rounded-xl bg-card/30 p-px border border-border/40"
                     >
-                        <div className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,var(--color-primary)_50%,transparent_100%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                        <div className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,var(--color-primary)_50%,transparent_100%)] opacity-0 transition-opacity duration-300 group-hover:opacity-60 dark:group-hover:opacity-100" />
 
                         <div className="relative z-10 h-full w-full rounded-xl bg-card/95 backdrop-blur-md p-6 transition-colors">
                             <span className="text-xs uppercase tracking-widest text-primary font-mono">
