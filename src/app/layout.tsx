@@ -6,6 +6,7 @@ import "./globals.css"
 import SmoothScroll from "@/components/SmoothScroll"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { NavigationBar } from "@/components/NavigationBar"
+import { Analytics } from "@vercel/analytics/next"
 
 const NAV_LINKS = [
   { label: "Home", href: "#hero" },
@@ -112,9 +113,8 @@ export default function RootLayout({
         <ThemeProvider>
           <NavigationBar links={NAV_LINKS} />
           <SmoothScroll />
-          {/* <SmoothCursor /> */}
           {children}
-          {/* <Analytics /> */}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
