@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     title: "Panharoth Chheng — Cybersecurity & Backend Engineer",
     description:
       "Secure, scalable systems with a focus on cybersecurity, performance, and modern web architecture.",
-    images: ["/og_image.jpg"],
+    images: ["/og_image.png"],
   },
   robots: {
     index: true,
