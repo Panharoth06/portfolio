@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     siteName: "Panharoth Portfolio",
     images: [
       {
-        url: "/me.jpg",
+        url: "/og_image.png",
         width: 960,
         height: 960,
         alt: "Panharoth Chheng",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     title: "Panharoth Chheng — Cybersecurity & Backend Engineer",
     description:
       "Secure, scalable systems with a focus on cybersecurity, performance, and modern web architecture.",
-    images: ["/me.jpg"],
+    images: ["/og_image.jpg"],
   },
   robots: {
     index: true,
